@@ -37,7 +37,7 @@ jobs:
             ghc: '9.12'
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Setup Haskell
       uses: haskell-actions/setup@v2
@@ -51,7 +51,7 @@ jobs:
         cabal build all --dry-run
 
     - name: Restore cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       id:   cache
       with:
         path: ${{ steps.setup.outputs.cabal-store }}
@@ -70,7 +70,7 @@ jobs:
     - run: cabal sdist
 
     - name: Save cache
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       if:   always() && steps.cache.outputs.cache-hit != 'true'
       with:
         key:  ${{ steps.cache.outputs.cache-primary-key }}

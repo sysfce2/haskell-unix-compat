@@ -22,11 +22,11 @@ jobs:
         include:
 
         - os: macos-latest
-          ghc: 9.10.1
-          resolver: nightly-2025-03-27
+          ghc: 9.12.2
+          resolver: nightly-2025-12-25
         - os: macos-latest
-          ghc: 9.8.4
-          resolver: lts-23.14
+          ghc: 9.10.3
+          resolver: lts-24.25
         - os: macos-latest
           ghc: 9.2.8
           resolver: lts-20.26
@@ -34,24 +34,27 @@ jobs:
           # https://github.com/haskell-actions/setup/issues/77
 
         - os: windows-latest
-          ghc: 9.10.1
-          resolver: nightly-2025-03-27
+          ghc: 9.12.2
+          resolver: nightly-2025-12-25
         - os: windows-latest
-          ghc: 9.8.4
-          resolver: lts-23.14
+          ghc: 9.10.3
+          resolver: lts-24.25
         - os: windows-latest
           ghc: 8.4.4
           resolver: lts-12.26
 
         - os: ubuntu-latest
-          ghc: 9.10.1
-          resolver: nightly-2025-03-27
+          ghc: 9.12.2
+          resolver: nightly-2025-12-25
+        - os: ubuntu-latest
+          ghc: 9.10.3
+          resolver: lts-24.25
         - os: ubuntu-latest
           ghc: 9.8.4
-          resolver: lts-23.14
+          resolver: lts-23.28
         - os: ubuntu-latest
-          ghc: 9.6.6
-          resolver: lts-22.43
+          ghc: 9.6.7
+          resolver: lts-22.44
         - os: ubuntu-latest
           ghc: 9.4.8
           resolver: lts-21.25
@@ -87,7 +90,7 @@ jobs:
 
     steps:
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Install GHC and stack with haskell-actions/setup
       uses: haskell-actions/setup@v2
@@ -113,7 +116,7 @@ jobs:
     ########################################################################
 
     - name: Restore cached stack pantry
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       id:   cache-pantry
       with:
         path: ${{ steps.setup.outputs.stack-root }}/pantry
@@ -126,7 +129,7 @@ jobs:
 
     - name: Cache stack pantry
       if:   steps.cache-pantry.outputs.cache-hit != 'true'
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       with:
         path: ${{ steps.setup.outputs.stack-root }}/pantry
         key:  ${{ steps.cache-pantry.outputs.cache-primary-key }}
@@ -138,7 +141,7 @@ jobs:
       run:  ${{ env.stack }} test --dry-run > '.build-plan.txt'
 
     - name: Restore cached dependencies
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v5
       id:   cache-deps
       with:
         path: |
@@ -155,7 +158,7 @@ jobs:
 
     - name: Cache dependencies
       if:   steps.cache-deps.outputs.cache-hit != 'true'
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v5
       with:
         path: |
           ${{ steps.setup.outputs.stack-root }}/stack.sqlite3

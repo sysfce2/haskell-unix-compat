@@ -11,7 +11,7 @@ jobs:
     env:
       GHC_WASM_META: 45f73c3e075fa38efe84055b0dba87996948101d
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: cachix/install-nix-action@v31
 
       - name: Build
